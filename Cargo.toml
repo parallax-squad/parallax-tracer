@@ -61,5 +61,6 @@ tokio = { version = "1.28.2", features = ["full"] }
 
 
 [features]
-tests = []
+default = ["local-reth"]
 local-reth = []
+# tests = []
