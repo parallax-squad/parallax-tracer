@@ -24,7 +24,10 @@ use reth_rpc_eth_types::{
 use reth_rpc_server_types::constants::{
     DEFAULT_ETH_PROOF_WINDOW, DEFAULT_MAX_SIMULATE_BLOCKS, DEFAULT_PROOF_PERMITS,
 };
-use reth_tasks::pool::{BlockingTaskGuard, BlockingTaskPool};
+use reth_tasks::{
+    TaskSpawner,
+    pool::{BlockingTaskGuard, BlockingTaskPool},
+};
 use reth_tracer::{
     arena::CallTraceArena,
     config::{StackSnapshotType, TracingInspectorConfig},
@@ -36,7 +39,7 @@ use reth_transaction_pool::{
     validate::EthTransactionValidatorBuilder,
 };
 use revm::inspector::inspectors::GasInspector;
-use types::{TxTrace, executor::BrontesTaskExecutor};
+use types::TxTrace;
 // use revm::inspector::inspectors::GasInspector;
 
 mod provider;
@@ -66,10 +69,10 @@ pub struct TracingClient {
     pub provider_factory: RethProviderFactory,
 }
 impl TracingClient {
-    pub fn new_with_db(
+    pub fn new_with_db<T: TaskSpawner + Clone + 'static>(
         db: Arc<DatabaseEnv>,
         max_tasks: u64,
-        task_executor: BrontesTaskExecutor,
+        task_executor: T,
         static_files_path: PathBuf,
     ) -> Self {
         let chain = MAINNET.clone();
@@ -126,7 +129,11 @@ impl TracingClient {
         }
     }
 
-    pub fn new(db_path: &Path, max_tasks: u64, task_executor: BrontesTaskExecutor) -> Self {
+    pub fn new<T: TaskSpawner + Clone + 'static>(
+        db_path: &Path,
+        max_tasks: u64,
+        task_executor: T,
+    ) -> Self {
         let db = Arc::new(init_db(db_path).unwrap());
         let mut static_files = db_path.to_path_buf();
         static_files.pop();
