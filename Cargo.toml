@@ -7,34 +7,34 @@ edition = "2024"
 
 [dependencies]
 # Reth
-reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
-reth-node-types = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
+reth-node-ethereum = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
+reth-node-types = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
 async-trait = "0.1.73"
-reth-tasks = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
-reth-rpc = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
-reth-rpc-api = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
-reth-chainspec = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
-reth-provider = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
-reth-transaction-pool = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
-reth-network-api = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
-reth-primitives = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
-reth-db = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
-reth-revm = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
-alloy-consensus = { version = "0.12.5" }
+reth-tasks = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
+reth-rpc = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
+reth-rpc-api = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
+reth-chainspec = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
+reth-provider = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
+reth-transaction-pool = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
+reth-network-api = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
+reth-primitives = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
+reth-db = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
+reth-revm = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
+alloy-consensus = { version = "0.12.6" }
 alloy-primitives = { version = "0.8.20", features = ["rlp"] }
-alloy-sol-types = { version = "0.8.23", features = ["json"] }
-alloy-rpc-types-trace = "0.12.5"
-alloy-rpc-types = { version = "0.12.5", features = ["jsonrpsee-types", "eth"] }
+alloy-sol-types = { version = "0.8.20", features = ["json"] }
+alloy-rpc-types-trace = "0.12.6"
+alloy-rpc-types = { version = "0.12.6", features = ["jsonrpsee-types", "eth"] }
 futures = "0.3.28"
-reth-rpc-eth-types = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
-reth-rpc-eth-api = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
-reth-rpc-server-types = { git = "https://github.com/paradigmxyz/reth", version = "1.3.0", tag = "v1.3.0" }
-revm-inspector = { version = "1.0.0-alpha.5", default-features = false }
-alloy-evm = { version = "0.1.0-alpha.1", default-features = false }
+reth-rpc-eth-types = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
+reth-rpc-eth-api = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
+reth-rpc-server-types = { git = "https://github.com/paradigmxyz/reth", version = "1.3.4", tag = "v1.3.4" }
+revm-inspector = { version = "1.0.0-alpha.7", default-features = false }
+alloy-evm = { version = "0.1.0-alpha.3", default-features = false }
 tracing = "0.1.37"
 
 num_cpus = "1.16.0"
-revm-primitives = { version = "16.0.0-alpha.3", features = [
+revm-primitives = { version = "16.0.0-alpha.5", features = [
   "std",
 ], default-features = false }
 revm-inspectors = "0.17.0-alpha.1"
@@ -42,7 +42,7 @@ rayon = "1.7.0"
 bitflags = "2.4"
 
 
-revm = { version = "20.0.0-alpha.5", features = [
+revm = { version = "20.0.0-alpha.7", features = [
   "std",
   "secp256k1",
   "optional_balance_check",
