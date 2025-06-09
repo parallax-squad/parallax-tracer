@@ -39,11 +39,11 @@ pub type EvmContext<DB> = Context<BlockEnv, TxEnv, CfgEnv, DB>;
 /// This [Inspector] can be hooked into revm's EVM which then calls the
 /// inspector functions, such as [Inspector::call] or [Inspector::call_end].
 ///
-/// The [BrontesTracingInspector] keeps track of everything by:
+/// The [ParallaxTracingInspector] keeps track of everything by:
 ///   1. start tracking steps/calls on [Inspector::step] and [Inspector::call]
 ///   2. complete steps/calls on [Inspector::step_end] and [Inspector::call_end]
 #[derive(Clone, Debug)]
-pub struct BrontesTracingInspector {
+pub struct ParallaxTracingInspector {
     /// Configures what and how the inspector records traces.
     pub config: TracingInspectorConfig,
     /// Records all call traces
@@ -64,7 +64,7 @@ pub struct BrontesTracingInspector {
 
 // === impl TracingInspector ===
 
-impl BrontesTracingInspector {
+impl ParallaxTracingInspector {
     /// Returns a new instance for the given config
     pub fn new(config: TracingInspectorConfig) -> Self {
         Self {
@@ -442,7 +442,7 @@ impl BrontesTracingInspector {
     }
 }
 
-impl BrontesTracingInspector {
+impl ParallaxTracingInspector {
     pub fn into_trace_results(self, info: TransactionInfo, res: &ExecutionResult) -> TxTrace {
         let gas_used = res.gas_used().into();
         let trace = self.build_trace(info.hash.unwrap(), info.block_number.unwrap());
@@ -504,7 +504,7 @@ impl BrontesTracingInspector {
                         prev_trace.msg_sender
                     } else {
                         tracing::error!(
-                            target: "brontes::tracing",
+                            target: "parallax::tracing",
                             ?block_number,
                             ?tx_hash,
                             "couldn't find head of delegate call for block"
@@ -670,7 +670,7 @@ impl BrontesTracingInspector {
     }
 }
 
-impl<DB> Inspector<EvmContext<DB>> for BrontesTracingInspector
+impl<DB> Inspector<EvmContext<DB>> for ParallaxTracingInspector
 where
     DB: Database,
 {

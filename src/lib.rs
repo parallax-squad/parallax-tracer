@@ -31,7 +31,7 @@ use reth_tasks::{
 use reth_tracer::{
     arena::CallTraceArena,
     config::{StackSnapshotType, TracingInspectorConfig},
-    inspector::BrontesTracingInspector,
+    inspector::ParallaxTracingInspector,
 };
 use reth_transaction_pool::{
     CoinbaseTipOrdering, EthPooledTransaction, EthTransactionValidator, Pool,
@@ -147,7 +147,7 @@ impl TracingClient {
         &self,
         block_id: BlockId,
     ) -> EthResult<Option<Vec<TxTrace>>> {
-        let insp_setup = || BrontesTracingInspector {
+        let insp_setup = || ParallaxTracingInspector {
             config: TracingInspectorConfig {
                 record_logs: true,
                 record_steps: false,
@@ -197,10 +197,10 @@ pub fn init_db<P: AsRef<Path> + Debug>(path: P) -> eyre::Result<DatabaseEnv> {
 // #[cfg(all(test, feature = "local-reth"))]
 // pub mod test {
 //     use alloy_rpc_types::{BlockId, BlockNumberOrTag};
-//     use brontes_core::test_utils::TraceLoader;
+//     use parallax_core::test_utils::TraceLoader;
 //     use futures::future::join_all;
 
-//     #[brontes_macros::test]
+//     #[parallax_macros::test]
 //     async fn ensure_traces_eq() {
 //         let block = 18500018;
 //         let loader = TraceLoader::new().await;
@@ -219,7 +219,7 @@ pub fn init_db<P: AsRef<Path> + Debug>(path: P) -> eyre::Result<DatabaseEnv> {
 //             .for_each(|trace| assert_eq!(cmp, trace, "got traces that aren't equal"));
 //     }
 
-//     #[brontes_macros::test]
+//     #[parallax_macros::test]
 //     async fn ensure_no_failure() {
 //         let block = 19586294;
 //         let loader = TraceLoader::new().await;

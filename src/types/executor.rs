@@ -27,11 +27,11 @@ use tokio::{
 };
 use tracing::{Instrument, debug, error};
 
-static EXECUTOR: OnceCell<BrontesTaskExecutor> = OnceCell::const_new();
+static EXECUTOR: OnceCell<ParallaxTaskExecutor> = OnceCell::const_new();
 
 #[derive(Debug)]
-#[must_use = "BrontesTaskManager must be polled to monitor critical tasks"]
-pub struct BrontesTaskManager {
+#[must_use = "ParallaxTaskManager must be polled to monitor critical tasks"]
+pub struct ParallaxTaskManager {
     /// Handle to the tokio runtime this task manager is associated with.
     ///
     /// See [`Handle`] docs.
@@ -50,8 +50,8 @@ pub struct BrontesTaskManager {
     graceful_tasks: Arc<AtomicUsize>,
 }
 
-impl BrontesTaskManager {
-    /// Returns a a `BrontesTaskManager` over the currently running Runtime.
+impl ParallaxTaskManager {
+    /// Returns a a `ParallaxTaskManager` over the currently running Runtime.
     ///
     /// # Panics
     ///
@@ -103,8 +103,8 @@ impl BrontesTaskManager {
 
     /// Returns a new `TaskExecutor` that can spawn new tasks onto the tokio
     /// runtime this type is connected to.
-    pub fn executor(&self) -> BrontesTaskExecutor {
-        BrontesTaskExecutor {
+    pub fn executor(&self) -> ParallaxTaskExecutor {
+        ParallaxTaskExecutor {
             handle: self.handle.clone(),
             on_shutdown: self.on_shutdown.clone(),
             panicked_tasks_tx: self.panicked_tasks_tx.clone(),
@@ -143,7 +143,7 @@ impl BrontesTaskManager {
     }
 }
 
-impl Future for BrontesTaskManager {
+impl Future for ParallaxTaskManager {
     type Output = PanickedTaskError;
 
     fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
@@ -153,7 +153,7 @@ impl Future for BrontesTaskManager {
 }
 
 #[derive(Debug, Clone)]
-pub struct BrontesTaskExecutor {
+pub struct ParallaxTaskExecutor {
     /// Handle to the tokio runtime this task manager is associated with.
     ///
     /// See [`Handle`] docs.
@@ -166,12 +166,12 @@ pub struct BrontesTaskExecutor {
     graceful_tasks: Arc<AtomicUsize>,
 }
 
-impl BrontesTaskExecutor {
+impl ParallaxTaskExecutor {
     /// panics if not  in a task_manager scope
     pub fn current() -> &'static Self {
         EXECUTOR
             .get()
-            .expect("not running in a brontes task manager scope")
+            .expect("not running in a parallax task manager scope")
     }
 
     /// Causes a shutdown to occur.
@@ -414,7 +414,7 @@ impl BrontesTaskExecutor {
 
     /// This spawns a regular task onto the runtime.
     ///
-    /// The [BrontesTaskManager] will wait until the given future has completed
+    /// The [ParallaxTaskManager] will wait until the given future has completed
     /// before shutting down.
     ///
     /// # Example
@@ -450,13 +450,13 @@ impl BrontesTaskExecutor {
     }
 }
 
-impl TaskSpawner for BrontesTaskExecutor {
+impl TaskSpawner for ParallaxTaskExecutor {
     fn spawn(&self, fut: BoxFuture<'static, ()>) -> JoinHandle<()> {
         self.spawn(fut)
     }
 
     fn spawn_critical(&self, name: &'static str, fut: BoxFuture<'static, ()>) -> JoinHandle<()> {
-        BrontesTaskExecutor::spawn_critical(self, name, fut)
+        ParallaxTaskExecutor::spawn_critical(self, name, fut)
     }
 
     fn spawn_blocking(&self, fut: BoxFuture<'static, ()>) -> JoinHandle<()> {
@@ -468,11 +468,11 @@ impl TaskSpawner for BrontesTaskExecutor {
         name: &'static str,
         fut: BoxFuture<'static, ()>,
     ) -> JoinHandle<()> {
-        BrontesTaskExecutor::spawn_critical_blocking(self, name, fut)
+        ParallaxTaskExecutor::spawn_critical_blocking(self, name, fut)
     }
 }
 
-impl TaskSpawnerExt for BrontesTaskExecutor {
+impl TaskSpawnerExt for ParallaxTaskExecutor {
     fn spawn_critical_with_graceful_shutdown_signal<F>(
         &self,
         name: &'static str,
@@ -481,7 +481,7 @@ impl TaskSpawnerExt for BrontesTaskExecutor {
     where
         F: Future<Output = ()> + Send + 'static,
     {
-        BrontesTaskExecutor::spawn_critical_with_graceful_shutdown_signal(self, name, f)
+        ParallaxTaskExecutor::spawn_critical_with_graceful_shutdown_signal(self, name, f)
     }
 
     fn spawn_with_graceful_shutdown_signal<F>(
@@ -491,7 +491,7 @@ impl TaskSpawnerExt for BrontesTaskExecutor {
     where
         F: Future<Output = ()> + Send + 'static,
     {
-        BrontesTaskExecutor::spawn_with_graceful_shutdown_signal(self, f)
+        ParallaxTaskExecutor::spawn_with_graceful_shutdown_signal(self, f)
     }
 }
 
